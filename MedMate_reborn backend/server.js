@@ -2,13 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const ticketRoutes = require('./routes/tickets');
+const argon2 = require('argon2');
+const User = require('./models/User');
+const Ticket = require('./models/Ticket');
+const { authenticateUser } = require('./service/auth');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-
-app.use(bodyParser.json());
-app.use(cors());
 
 // Подключение к MongoDB
 mongoose.connect('mongodb://localhost:27017/medmate', {
@@ -25,7 +25,32 @@ mongoose.connect('mongodb://localhost:27017/medmate', {
   console.error('Ошибка подключения к MongoDB:', error);
 });
 
+app.use(bodyParser.json());
+app.use(cors());
+
+// Маршрут для аутентификации пользователя
+app.post('/api/login', async (req, res) => {
+  const { username, password } = req.body;
+  console.log(`Получен запрос на аутентификацию для пользователя: ${username}`);
+
+  try {
+    const authResult = await authenticateUser(username, password);
+
+    if (authResult.success) {
+      console.log(`Успешная аутентификация для пользователя: ${username}`);
+      res.status(200).json({ message: authResult.message });
+    } else {
+      console.log(`Ошибка аутентификации для пользователя: ${username}`);
+      res.status(401).json({ message: authResult.message });
+    }
+  } catch (error) {
+    console.error('Ошибка аутентификации:', error);
+    res.status(500).json({ message: 'Внутренняя ошибка сервера' });
+  }
+});
+
 // Маршруты для операций с заявками
+const ticketRoutes = require('./routes/tickets');
 app.use('/api/tickets', ticketRoutes);
 
 module.exports = app;
