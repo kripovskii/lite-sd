@@ -50,7 +50,7 @@ const Login = () => {
       >
         <Form.Item
           name="username"
-          rules={[{ required: true, message: 'Please enter your username!' }]}
+          rules={[{ required: true, message: 'Введите логин!' }]}
         >
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}
@@ -60,11 +60,11 @@ const Login = () => {
 
         <Form.Item
           name="password"
-          rules={[{ required: true, message: 'Please enter your password!' }]}
+          rules={[{ required: true, message: 'Введите пароль!' }]}
         >
           <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}
-            placeholder="Password"
+            placeholder="Пароль"
           />
         </Form.Item>
 

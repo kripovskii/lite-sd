@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('./models/User'); // Подключаем модель пользователя
+const User = require('../models/User'); // Подключаем модель пользователя
 
 // Подключение к MongoDB
 mongoose.connect('mongodb://localhost:27017/medmate', {

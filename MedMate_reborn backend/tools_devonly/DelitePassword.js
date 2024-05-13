@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('./models/User'); // Подключаем модель пользователя
+const User = require('../models/User'); // Подключаем модель пользователя
 
 // Строка подключения к MongoDB
 const mongoURI = 'mongodb://localhost:27017/medmate';
