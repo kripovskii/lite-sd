@@ -1,8 +1,16 @@
-# React + Vite
+### Medmate_reborn ###
+Этот проект создан для системы заявок медтехников
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Установка базы данных ##
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Клонируйте репозиторий
+Перейдите в каталог проекта: cd MedMate_reborn backend/docker_db
+Запустите команду: 
+\'''bash
+docker run --name medmate-db -p 27017:27017 -d mongo
+ \'''
+ После выполните скрипт:
+ \'''bash
+  node .\CreateUser.js
+  node .\server.js
+  \'''

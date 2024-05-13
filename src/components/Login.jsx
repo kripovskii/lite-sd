@@ -33,7 +33,7 @@ const Login = () => {
     } catch (error) {
       console.error('Authentication error:', error);
       setLoading(false);
-      message.error('Authentication error. Please check your credentials.');
+      message.error('Ошибка авторизации. Проверьте логин и пароль ');
     }
   };
 
