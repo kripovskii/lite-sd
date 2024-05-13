@@ -9,6 +9,17 @@ const { Option } = Select;
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
   const history = useHistory();
+  const handleMenuClick = (key) => {
+    if (key === '3') {
+      history.push('/new');
+      window.location.reload();
+    }
+    if (key === '2'){
+        history.push('/tickets');
+        window.location.reload();
+    }
+  };
+
 
   const onFinish = async (values) => {
     console.log('Received values:', values);
@@ -18,7 +29,6 @@ const App = () => {
         const newValues = {
           ...values,
           status: 'Новая',  // Устанавливаем статус по умолчанию
-         
         };
     
         const response = await fetch('http://localhost:3001/api/tickets', {
@@ -57,6 +67,7 @@ const App = () => {
         <Menu
           theme="dark"
           mode="inline"
+          onClick={({ key }) => handleMenuClick(key)}
           defaultSelectedKeys={['3']}
           items={[
             { key: '1', icon: <HomeOutlined />, label: 'Главная страница' },

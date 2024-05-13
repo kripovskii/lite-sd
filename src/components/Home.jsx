@@ -23,6 +23,10 @@ const App = () => {
       window.location.reload();
       // Use history.push to navigate to '/new'
     }
+    if (key === '2'){
+        history.push('/tickets');
+        window.location.reload();
+    }
   };
 
   return (

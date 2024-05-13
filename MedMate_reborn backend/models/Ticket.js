@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 const ticketSchema = new mongoose.Schema({
   number: {
-    type: Number,  // Используем тип Number для номера заявки
+    type: Number,
     required: true,
     unique: true
   },
   status: {
     type: String,
-    enum: ['Новая', 'В работе', 'Решена', 'В ожидании ответа','Закрыта'], // Определяем возможные значения статуса
-    default: 'Новая'  
+    enum: ['Новая', 'В работе', 'Решена', 'В ожидании ответа', 'Закрыта'],
+    default: 'Новая'
   },
   subject: {
     type: String,
@@ -20,7 +20,7 @@ const ticketSchema = new mongoose.Schema({
     required: true
   },
   files: {
-    type: [String]  
+    type: [String]
   },
   customer: {
     type: String,
@@ -29,16 +29,18 @@ const ticketSchema = new mongoose.Schema({
   serviceObject: {
     type: String,
     required: true
+  },
+  employee: {
+    type: String,
+    default: null  // Значение по умолчанию null, если ответственный не назначен
   }
 });
-
 
 ticketSchema.pre('save', async function(next) {
   try {
     if (!this.number) {
-    
-      const maxNumber = await Ticket.findOne({}, {}, { sort: { 'number': -1 } });
-      this.number = maxNumber ? maxNumber.number + 1 : 1; 
+      const maxNumberTicket = await Ticket.findOne({}, {}, { sort: { 'number': -1 } });
+      this.number = maxNumberTicket ? maxNumberTicket.number + 1 : 1;
     }
     next();
   } catch (error) {

@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './components/Login';
 import Home from './components/Home'; 
 import NewTicket from './components/NewTicket';
+import Tickets from './components/Tickets';
+import Ticket from './components/Ticket';
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
           <Route exact path="/" component={Login} />
           <Route exact path="/home" component={Home} /> 
           <Route exact path="/new" component={NewTicket} />
+          <Route exact path="/tickets"component={Tickets} />
+          <Route exact path="/ticket" component={Ticket} />
         </Switch>
       </Router>
     </div>
