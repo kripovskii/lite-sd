@@ -1,16 +1,11 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const argon2 = require('argon2');
-const User = require('./models/User');
-const Ticket = require('./models/Ticket');
-const { authenticateUser } = require('./service/auth');
+const mongoose = require('mongoose');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Подключение к MongoDB
 mongoose.connect('mongodb://localhost:27017/medmate', {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -27,6 +22,17 @@ mongoose.connect('mongodb://localhost:27017/medmate', {
 
 app.use(bodyParser.json());
 app.use(cors());
+
+// Маршрут для аутентификации пользователя
+app.post('/api/login', async (req, res) => {
+  // Код аутентификации здесь
+});
+
+// Маршруты для операций с заявками
+const ticketRoutes = require('./routes/tickets');
+app.use('/api/tickets', ticketRoutes);
+
+
 
 // Маршрут для аутентификации пользователя
 app.post('/api/login', async (req, res) => {
@@ -49,8 +55,5 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// Маршруты для операций с заявками
-const ticketRoutes = require('./routes/tickets');
-app.use('/api/tickets', ticketRoutes);
 
 module.exports = app;

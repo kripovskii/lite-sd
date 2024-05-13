@@ -1,29 +1,39 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'; // Import useHistory from react-router-dom
 import {
-    FormOutlined,
-    HomeOutlined,
+  FormOutlined,
+  HomeOutlined,
   InboxOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
+
 const { Header, Sider, Content } = Layout;
+
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const { colorBgContainer, borderRadiusLG } = theme.useToken(); 
+  const history = useHistory(); // Get the history object from react-router-dom
+
+  const handleMenuClick = (key) => {
+    if (key === '3') {
+      // Handle menu item 'Создать заявку' click
+      history.push('/new'); 
+      window.location.reload();
+      // Use history.push to navigate to '/new'
+    }
+  };
+
   return (
-    <Layout style={{ height:'100vh' }}>
+    <Layout style={{ height: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical" />
         <Menu
           theme="dark"
           mode="inline"
           defaultSelectedKeys={['1']}
+          onClick={({ key }) => handleMenuClick(key)} // Pass the key to the click handler
           items={[
             {
               key: '1',
@@ -76,4 +86,5 @@ const App = () => {
     </Layout>
   );
 };
+
 export default App;

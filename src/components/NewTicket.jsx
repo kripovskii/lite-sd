@@ -1,176 +1,118 @@
 import React, { useState } from 'react';
-import { FormOutlined, HomeOutlined, InboxOutlined, MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Button, Layout, Menu, Input, Form, Upload, Select, Row, Col, theme } from 'antd';
+import { useHistory } from 'react-router-dom';
+import { FormOutlined, HomeOutlined, InboxOutlined, MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, Layout, Menu, Input, Form, Upload, Select, Row, Col, message } from 'antd';
 
 const { Header, Sider, Content } = Layout;
 const { Option } = Select;
 
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const history = useHistory();
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log('Received values:', values);
-    // Здесь вы можете отправить данные (например, вызвать API для создания заявки)
+
+    try {
+        // Добавляем новые поля к значениям перед отправкой
+        const newValues = {
+          ...values,
+          status: 'Новая',  // Устанавливаем статус по умолчанию
+         
+        };
+    
+        const response = await fetch('http://localhost:3001/api/tickets', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newValues),
+        });
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Ticket created:', data);
+        message.success("Заявка отправлена")
+        // Добавьте здесь логику для перехода на другую страницу или вывода сообщения об успешном создании заявки
+        history.push('/success'); // Например, переход на страницу успешного создания заявки
+      } else {
+        console.error('Failed to create ticket');
+        message.error("Ошибка при отправке. Повторите попытку позже")
+        // Добавьте здесь логику для вывода сообщения об ошибке
+      }
+    } catch (error) {
+      console.error('Error creating ticket:', error);
+      message.error("Ошибка при отправке. Повторите попытку позже", error)
+      // Добавьте здесь логику для вывода сообщения об ошибке
+    }
+  };
+
+  const handleCreateTicket = () => {
+    history.push('/new');
   };
 
   return (
-    <Layout style={{ height:'100vh' }}>
+    <Layout style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical" />
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={['3']}
           items={[
-            {
-              key: '1',
-              icon: <HomeOutlined />,
-              label: 'Главная страница',
-            },
-            {
-              key: '2',
-              icon: <InboxOutlined />,
-              label: 'Заявки',
-            },
+            { key: '1', icon: <HomeOutlined />, label: 'Главная страница' },
+            { key: '2', icon: <InboxOutlined />, label: 'Заявки' },
             {
               key: '3',
               icon: <FormOutlined />,
               label: 'Создать заявку',
+              onClick: handleCreateTicket,
             },
           ]}
         />
       </Sider>
-      <Layout>
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        >
+      <Layout className="site-layout">
+        <Header className="site-layout-background" style={{ padding: 0 }}>
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-            }}
           />
         </Header>
-        <Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          }}
-        >
-          {/* Форма создания заявки */}
+        <Content style={{ margin: '16px', padding: '16px', background: '#fff', minHeight: 280 }}>
+          <h1>Создать заявку</h1>
           <Form
             name="ticketForm"
             onFinish={onFinish}
-            initialValues={{ number: 'AUTO_GENERATED' }} // Пример установки значения по умолчанию для номера заявки
-            labelCol={{ span: 8 }} // Установка количества колонок для меток полей
-            wrapperCol={{ span: 16 }} // Установка количества колонок для элементов ввода
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 14 }}
           >
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  name="number"
-                  label="Номер заявки"
-                >
-                  <Input disabled />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="subject"
-                  label="Тема"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Пожалуйста, введите тему заявки!',
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  name="description"
-                  label="Описание"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Пожалуйста, введите описание заявки!',
-                    },
-                  ]}
-                >
-                  <Input.TextArea />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="files"
-                  label="Файлы"
-                >
-                  <Upload>
-                    <Button icon={<UploadOutlined />}>Загрузить файлы</Button>
-                  </Upload>
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <Form.Item
-                  name="customer"
-                  label="Заказчик"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Пожалуйста, введите имя заказчика!',
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Form.Item
-                  name="serviceObject"
-                  label="Объект обслуживания"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Пожалуйста, выберите объект обслуживания!',
-                    },
-                  ]}
-                >
-                  <Select>
-                    <Option value="object1">Объект 1</Option>
-                    <Option value="object2">Объект 2</Option>
-                    <Option value="object3">Объект 3</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row justify="end" gutter={16}>
-              <Col>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Создать заявку
-                  </Button>
-                </Form.Item>
-              </Col>
-            </Row>
+            {/* Форма заявки */}
+            <Form.Item label="Тема" name="subject" rules={[{ required: true, message: 'Введите тему заявки' }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item label="Описание" name="description" rules={[{ required: true, message: 'Введите описание заявки' }]}>
+              <Input.TextArea />
+            </Form.Item>
+            <Form.Item label="Заказчик" name="customer" rules={[{ required: true, message: 'Введите имя заказчика' }]}>
+              <Input />
+            </Form.Item>
+            <Form.Item label="Объект обслуживания" name="serviceObject" rules={[{ required: true, message: 'Выберите объект обслуживания' }]}>
+              <Select>
+                <Option value="object1">Объект 1</Option>
+                <Option value="object2">Объект 2</Option>
+                <Option value="object3">Объект 3</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item label="Загрузить файлы" name="files">
+              <Upload>
+                <Button icon={<UploadOutlined />}>Загрузить файлы</Button>
+              </Upload>
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
+              <Button type="primary" htmlType="submit">
+                Создать заявку
+              </Button>
+            </Form.Item>
           </Form>
         </Content>
       </Layout>
