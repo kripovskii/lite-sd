@@ -15,8 +15,8 @@ function App() {
           <Route exact path="/" component={Login} />
           <Route exact path="/home" component={Home} /> 
           <Route exact path="/new" component={NewTicket} />
-          <Route exact path="/tickets"component={Tickets} />
-          <Route exact path="/ticket" component={Ticket} />
+          <Route exact path="/tickets" component={Tickets} />
+          <Route path="/ticket/:number" component={Ticket} /> {/* Используем :id для динамического параметра */}
         </Switch>
       </Router>
     </div>

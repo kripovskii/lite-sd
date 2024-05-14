@@ -8,7 +8,7 @@ const ticketSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Новая', 'В работе', 'Решена', 'В ожидании ответа', 'Закрыта'],
+    enum: ['Новая', 'В работе', 'Решена', 'В ожидании ответа', 'Закрыта','Отложена'],
     default: 'Новая'
   },
   subject: {

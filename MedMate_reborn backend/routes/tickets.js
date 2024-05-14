@@ -28,20 +28,24 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Маршрут для обновления заявки по идентификатору
-router.put('/:id', async (req, res) => {
-  const { id } = req.params;
+// Маршрут для обновления заявки по номеру
+router.put('/:number', async (req, res) => {
+  const { number } = req.params;
   const { subject, description, customer, serviceObject, files, employee } = req.body;
 
   try {
-    const updatedTicket = await Ticket.findByIdAndUpdate(id, {
-      subject,
-      description,
-      customer,
-      serviceObject,
-      files,
-      employee: employee || null
-    }, { new: true });
+    const updatedTicket = await Ticket.findOneAndUpdate(
+      { number: number },
+      {
+        subject,
+        description,
+        customer,
+        serviceObject,
+        files,
+        employee: employee || null
+      },
+      { new: true }
+    );
 
     if (!updatedTicket) {
       return res.status(404).json({ message: 'Заявка не найдена' });
@@ -65,11 +69,11 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Маршрут для получения заявки по идентификатору
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
+// Маршрут для получения заявки по номеру
+router.get('/:number', async (req, res) => {
+  const { number } = req.params;
   try {
-    const ticket = await Ticket.findById(id);
+    const ticket = await Ticket.findOne({ number: number });
     if (!ticket) {
       return res.status(404).json({ message: 'Заявка не найдена' });
     }
@@ -80,11 +84,11 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Маршрут для удаления заявки по идентификатору
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
+// Маршрут для удаления заявки по номеру
+router.delete('/:number', async (req, res) => {
+  const { number } = req.params;
   try {
-    const deletedTicket = await Ticket.findByIdAndDelete(id);
+    const deletedTicket = await Ticket.findOneAndDelete({ number: number });
     if (!deletedTicket) {
       return res.status(404).json({ message: 'Заявка не найдена' });
     }
@@ -94,5 +98,28 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: 'Не удалось удалить заявку' });
   }
 });
+
+router.put('/:number/status', async (req, res) => {
+    const { number } = req.params;
+    const { status } = req.body;
+  
+    try {
+      const updatedTicket = await Ticket.findOneAndUpdate(
+        { number: number },
+        { status: status },
+        { new: true }
+      );
+  
+      if (!updatedTicket) {
+        return res.status(404).json({ message: 'Заявка не найдена' });
+      }
+  
+      res.json({ message: `Статус заявки успешно изменен на "${status}"`, ticket: updatedTicket });
+    } catch (error) {
+      console.error(`Ошибка при изменении статуса заявки на "${status}":`, error);
+      res.status(500).json({ message: 'Не удалось изменить статус заявки' });
+    }
+  });
+  
 
 module.exports = router;

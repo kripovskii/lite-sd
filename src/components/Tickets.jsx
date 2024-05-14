@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { FormOutlined, HomeOutlined, InboxOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Button, Layout, Menu, Table, Tag } from 'antd';
 
@@ -10,23 +10,23 @@ const Tickets = () => {
   const [tickets, setTickets] = useState([]);
   const history = useHistory();
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch('http://localhost:3001/api/tickets');
-      if (response.ok) {
-        const data = await response.json();
-        setTickets(data); // Установка полученных данных в состояние tickets
-      } else {
-        console.error('Ошибка при получении списка заявок:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Ошибка при получении списка заявок:', error);
-    }
-  };
-
   useEffect(() => {
-    fetchData(); // Выполнить загрузку списка заявок при монтировании компонента
-  }, []); // Пустой массив зависимостей, чтобы запрос выполнялся только один раз при монтировании
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/tickets');
+        if (response.ok) {
+          const data = await response.json();
+          setTickets(data);
+        } else {
+          console.error('Ошибка при получении списка заявок:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Ошибка при получении списка заявок:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleMenuClick = (key) => {
     if (key === '3') {
@@ -41,8 +41,9 @@ const Tickets = () => {
     return employee ? employee : 'Не назначен';
   };
 
-  const handleViewTicket = () => {
-    window.location.reload(); // Обновить страницу при переходе
+  const handleViewTicket = (number) => {
+    history.push(`/ticket/${number}`);
+    window.location.reload();
   };
 
   const columns = [
@@ -102,9 +103,7 @@ const Tickets = () => {
       title: 'Действие',
       key: 'action',
       render: (text, record) => (
-        <Link to={`/ticket/${record.number}`}>
-          <Button type="primary" onClick={handleViewTicket}>Посмотреть</Button>
-        </Link>
+        <Button type="primary" onClick={() => handleViewTicket(record.number)}>Посмотреть</Button>
       ),
     },
   ];
