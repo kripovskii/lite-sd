@@ -23,10 +23,7 @@ mongoose.connect('mongodb://localhost:27017/medmate', {
 app.use(bodyParser.json());
 app.use(cors());
 
-// Маршрут для аутентификации пользователя
-app.post('/api/login', async (req, res) => {
-  // Код аутентификации здесь
-});
+
 
 // Маршруты для операций с заявками
 const ticketRoutes = require('./routes/tickets');
