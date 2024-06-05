@@ -2,12 +2,12 @@ const mongoose = require ('mongoose');
 
  const equipmentSchema = new mongoose.Schema({
     number: {
-        type: number,
+        type: Number,
         required: true,
         unique: true
     },
     class: {
-        type: string,
+        type: String,
         required: true
     },
     name: {
@@ -18,6 +18,10 @@ const mongoose = require ('mongoose');
         type: String
     },
     condition: {
-        type: string
+        type: String
     }
  })
+
+const Equipment = mongoose.model('Equipment', equipmentSchema);
+
+module.exports = Equipment;

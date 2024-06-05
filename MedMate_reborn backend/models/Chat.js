@@ -12,7 +12,8 @@ const mongoose = require ('mongoose');
        required: true
     },
    time: {
-      type: month, date, hour, minute
+      type: date,
+      required: true
    }
 });
 
@@ -29,4 +30,5 @@ commentSchema.pre('save', async function(next) {
  });
 
 const Comment = mongoose.model('Comment', commentSchema);
-module.export = Comment;
+
+module.exports = Comment;
