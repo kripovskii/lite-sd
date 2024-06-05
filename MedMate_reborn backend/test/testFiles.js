@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const Files = require('./path/to/filesModel'); // Путь до файла с моделью Files
+const Files = require('../models/File'); // Путь до файла с моделью Files
 
 // Соединение с базой данных
-mongoose.connect('mongodb://localhost:27017/filesDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/medmate/File', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

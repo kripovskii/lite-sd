@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const Comment = require('./path/to/commentModel'); // Путь до файла с моделью Comment
+const Comment = require('../models/Chat'); // Путь до файла с моделью Comment
 
 // Соединение с базой данных
-mongoose.connect('mongodb://localhost:27017/comments', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/medmate/Chat', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
