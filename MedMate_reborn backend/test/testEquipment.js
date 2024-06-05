@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Equipment = require('../models/Equipment'); // Путь до файла с моделью Equipment
 
 // Соединение с базой данных
-mongoose.connect('mongodb://localhost:27017/medmate/Equipment', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/medmate', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -13,38 +13,38 @@ db.once('open', async function() {
   const equipmentData = [
     {
       number: 1,
-      class: 'Компьютер',
-      name: 'Ноутбук Lenovo',
-      description: 'Мощный ноутбук для работы и игр',
-      condition: 'Новое'
+      class: 'Computer',
+      name: 'Dell Inspiron',
+      description: 'Office desktop computer',
+      condition: 'Good'
     },
     {
       number: 2,
-      class: 'Принтер',
+      class: 'Printer',
       name: 'HP LaserJet',
-      description: 'Лазерный принтер для офиса',
-      condition: 'Б/у'
+      description: 'High-speed laser printer',
+      condition: 'New'
     },
     {
       number: 3,
-      class: 'Сетевое оборудование',
-      name: 'Роутер TP-Link',
-      description: 'Беспроводной роутер',
-      condition: 'Новое'
+      class: 'Projector',
+      name: 'Epson EB-S41',
+      description: 'Portable projector for presentations',
+      condition: 'Fair'
     },
     {
       number: 4,
-      class: 'Сканер',
-      name: 'Canon Scanner',
-      description: 'Сканер документов',
-      condition: 'Б/у'
+      class: 'Router',
+      name: 'Cisco RV340',
+      description: 'Business-class VPN router',
+      condition: 'Good'
     },
     {
       number: 5,
-      class: 'Монитор',
-      name: 'Samsung Monitor',
-      description: 'Монитор с высоким разрешением',
-      condition: 'Новое'
+      class: 'Monitor',
+      name: 'Samsung S24F350',
+      description: '24-inch LED monitor',
+      condition: 'Poor'
     }
   ];
 

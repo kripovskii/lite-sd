@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const Ticket = require('../models/Ticket'); // путь до файла с моделью Ticket
+const Ticket = require('../models/Ticket'); // Путь до файла с моделью Ticket
 
 // Соединение с базой данных
-mongoose.connect('mongodb://localhost:27017/medmate/Ticket', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/medmate', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -12,49 +12,49 @@ db.once('open', async function() {
   // Создание данных для проверки
   const ticketsData = [
     {
+      number: 1,
       status: 'Новая',
-      subject: 'Первый запрос',
-      description: 'Описание первого запроса',
-      files: ['file1.png', 'file2.docx'],
-      customer: 'Иван Иванов',
-      serviceObject: 'Объект 1',
-      employee: null
+      subject: 'Ошибка в системе',
+      description: 'Возникает ошибка при входе в систему.',
+      files: ['error_screenshot.png'],
+      customer: 'Петр Иванов',
+      serviceObject: 'CRM система'
     },
     {
+      number: 2,
       status: 'В работе',
-      subject: 'Второй запрос',
-      description: 'Описание второго запроса',
-      files: [],
-      customer: 'Мария Петрова',
-      serviceObject: 'Объект 2',
-      employee: 'Сергей Сергеев'
+      subject: 'Проблемы с печатью',
+      description: 'Принтер не печатает с компьютера.',
+      files: ['printer_issue.docx'],
+      customer: 'Анна Петрова',
+      serviceObject: 'Офисный принтер'
     },
     {
+      number: 3,
       status: 'Решена',
-      subject: 'Третий запрос',
-      description: 'Описание третьего запроса',
-      files: ['file3.pdf'],
-      customer: 'Анна Сидорова',
-      serviceObject: 'Объект 3',
-      employee: 'Алексей Алексеев'
-    },
-    {
-      status: 'В ожидании ответа',
-      subject: 'Четвертый запрос',
-      description: 'Описание четвертого запроса',
+      subject: 'Настройка сети',
+      description: 'Необходима настройка новой сети в офисе.',
       files: [],
-      customer: 'Петр Петров',
-      serviceObject: 'Объект 4',
-      employee: null
+      customer: 'Сергей Сидоров',
+      serviceObject: 'Сетевая инфраструктура'
     },
     {
+      number: 4,
+      status: 'В ожидании ответа',
+      subject: 'Обновление ПО',
+      description: 'Необходимо обновить программное обеспечение.',
+      files: ['update_instructions.pdf'],
+      customer: 'Елена Кузнецова',
+      serviceObject: 'Рабочие станции'
+    },
+    {
+      number: 5,
       status: 'Закрыта',
-      subject: 'Пятый запрос',
-      description: 'Описание пятого запроса',
-      files: ['file4.jpg'],
-      customer: 'Николай Николаев',
-      serviceObject: 'Объект 5',
-      employee: 'Дмитрий Дмитриев'
+      subject: 'Установка нового оборудования',
+      description: 'Требуется установка нового сервера.',
+      files: ['server_installation_guide.pdf'],
+      customer: 'Иван Смирнов',
+      serviceObject: 'Серверное оборудование'
     }
   ];
 

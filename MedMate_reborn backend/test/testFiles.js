@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const Files = require('../models/File'); // Путь до файла с моделью Files
+const File = require('../models/File'); // Путь до файла с моделью File
 
 // Соединение с базой данных
-mongoose.connect('mongodb://localhost:27017/medmate/File', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/medmate', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -39,12 +39,12 @@ db.once('open', async function() {
   ];
 
   // Очистка коллекции перед добавлением новых данных
-  await Files.deleteMany({});
+  await File.deleteMany({});
 
   // Добавление новых данных
   try {
     for (const data of filesData) {
-      const file = new Files(data);
+      const file = new File(data);
       await file.save();
       console.log(`File with number ${file.number} created successfully`);
     }
