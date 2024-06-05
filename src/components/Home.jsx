@@ -9,6 +9,13 @@ import {
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 
+import './Home.css';
+
+import RequestsChart from './RequestsChart';
+import Notifications from './Notifications';
+import Profile from './Profile';
+
+
 const { Header, Sider, Content } = Layout;
 
 const App = () => {
@@ -31,6 +38,7 @@ const App = () => {
 
   return (
     <Layout style={{ height: '100vh' }}>
+      
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical" />
         <Menu
@@ -57,6 +65,7 @@ const App = () => {
           ]}
         />
       </Sider>
+      
       <Layout>
         <Header
           style={{
@@ -74,7 +83,18 @@ const App = () => {
               height: 64,
             }}
           />
+          <Notifications 
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: '16px',
+              width: 64,
+              height: 64,
+            }}/>
+            <Profile/>
         </Header>
+        
         <Content
           style={{
             margin: '24px 16px',
@@ -84,9 +104,11 @@ const App = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-          Content
+        <RequestsChart />
+        
         </Content>
       </Layout>
+      
     </Layout>
   );
 };
