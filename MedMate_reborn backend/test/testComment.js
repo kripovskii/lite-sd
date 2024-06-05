@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const Comment = require('./path/to/commentModel'); // Путь до файла с моделью Comment
+const Comment = require('../models/Chat'); // Путь до файла с моделью Comment
 
 // Соединение с базой данных
-mongoose.connect('mongodb://localhost:27017/comments', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/medmate', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -12,24 +12,29 @@ db.once('open', async function() {
   // Создание данных для проверки
   const commentsData = [
     {
-      creator: 'User1',
-      time: new Date(2023, 5, 5, 12, 30) // Используем конструктор Date для создания даты
+      number: 1,
+      creator: 'Иван Иванов',
+      time: new Date('2023-06-01T10:00:00')
     },
     {
-      creator: 'User2',
-      time: new Date(2023, 5, 6, 14, 45)
+      number: 2,
+      creator: 'Мария Петрова',
+      time: new Date('2023-06-02T12:30:00')
     },
     {
-      creator: 'User3',
-      time: new Date(2023, 5, 7, 16, 0)
+      number: 3,
+      creator: 'Анна Сидорова',
+      time: new Date('2023-06-03T15:45:00')
     },
     {
-      creator: 'User4',
-      time: new Date(2023, 5, 8, 10, 15)
+      number: 4,
+      creator: 'Петр Петров',
+      time: new Date('2023-06-04T09:15:00')
     },
     {
-      creator: 'User5',
-      time: new Date(2023, 5, 9, 9, 50)
+      number: 5,
+      creator: 'Николай Николаев',
+      time: new Date('2023-06-05T14:20:00')
     }
   ];
 

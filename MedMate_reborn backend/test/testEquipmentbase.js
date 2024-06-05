@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const EquipmentBase = require('./path/to/equipmentbaseModel'); // Путь до файла с моделью EquipmentBase
+const EquipmentBase = require('../models/Equipmentbase'); // Путь до файла с моделью EquipmentBase
 
 // Соединение с базой данных
-mongoose.connect('mongodb://localhost:27017/equipmentDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/medmate', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
