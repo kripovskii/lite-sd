@@ -48,6 +48,7 @@ const TicketDetails = () => {
         // Обновляем данные заявки после изменения статуса
         const updatedTicket = await response.json();
         setTicket(updatedTicket);
+        window.location.reload()
       } else {
         console.error('Ошибка при изменении статуса заявки:', response.statusText);
       }
@@ -69,6 +70,7 @@ const TicketDetails = () => {
         // Обновляем данные заявки после изменения статуса
         const updatedTicket = await response.json();
         setTicket(updatedTicket);
+        window.location.reload
       } else {
         console.error('Ошибка при изменении статуса заявки:', response.statusText);
       }
@@ -155,7 +157,7 @@ const TicketDetails = () => {
         <Text>{ticket.customer}</Text>
         <Divider />
         <Text strong>Ответственный: </Text>
-        <Text>{ticket.employee ? ticket.employee : 'Не назначен'}</Text>
+        <Text>{ticket.employe ? ticket.employe : 'Не назначен'}</Text>
         <Divider />
         {renderFiles()}
       </Content>

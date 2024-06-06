@@ -18,44 +18,14 @@ db.once('open', async function() {
       description: 'Возникает ошибка при входе в систему.',
       files: ['error_screenshot.png'],
       customer: 'Петр Иванов',
-      serviceObject: 'CRM система'
+      serviceObject: 'Клиника на Окенаском проспекте',
+      employe:'admin',
+      deadline: new Date('2024-06-20'), // Пример установки дедлайна (20 июня 2024 года)
+      createdAt: new Date(), // Пример установки даты и времени создания (текущая дата и время)
+      resolvedAt: null, // Пока заявка не решена, установим значение null
+      resolutionTime: null // Пока заявка не решена, установим значение null
     },
-    {
-      number: 2,
-      status: 'В работе',
-      subject: 'Проблемы с печатью',
-      description: 'Принтер не печатает с компьютера.',
-      files: ['printer_issue.docx'],
-      customer: 'Анна Петрова',
-      serviceObject: 'Офисный принтер'
-    },
-    {
-      number: 3,
-      status: 'Решена',
-      subject: 'Настройка сети',
-      description: 'Необходима настройка новой сети в офисе.',
-      files: [],
-      customer: 'Сергей Сидоров',
-      serviceObject: 'Сетевая инфраструктура'
-    },
-    {
-      number: 4,
-      status: 'В ожидании ответа',
-      subject: 'Обновление ПО',
-      description: 'Необходимо обновить программное обеспечение.',
-      files: ['update_instructions.pdf'],
-      customer: 'Елена Кузнецова',
-      serviceObject: 'Рабочие станции'
-    },
-    {
-      number: 5,
-      status: 'Закрыта',
-      subject: 'Установка нового оборудования',
-      description: 'Требуется установка нового сервера.',
-      files: ['server_installation_guide.pdf'],
-      customer: 'Иван Смирнов',
-      serviceObject: 'Серверное оборудование'
-    }
+    // Дополнительные заявки здесь...
   ];
 
   // Очистка коллекции перед добавлением новых данных

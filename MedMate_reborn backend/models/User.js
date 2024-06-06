@@ -5,7 +5,8 @@ const argon2 = require('argon2');
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  name: { type: String, required: true } 
+  name: { type: String, required: true },
+  isemploye:{ type: Boolean, require: true}
 });
 
 // Добавление метода для хэширования пароля перед сохранением

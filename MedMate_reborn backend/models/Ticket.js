@@ -8,7 +8,7 @@ const ticketSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Новая', 'В работе', 'Решена', 'В ожидании ответа', 'Закрыта','Отложена'],
+    enum: ['Новая', 'В работе', 'Решена', 'В ожидании ответа', 'Закрыта', 'Отложена'],
     default: 'Новая'
   },
   subject: {
@@ -32,7 +32,23 @@ const ticketSchema = new mongoose.Schema({
   },
   employee: {
     type: String,
-    default: null  // Значение по умолчанию null, если ответственный не назначен
+    default: null
+  },
+  deadline: {
+    type: Date, // Дата и время, когда заявка должна быть решена
+    default: null
+  },
+  createdAt: {
+    type: Date, // Дата и время создания заявки
+    default: Date.now
+  },
+  resolvedAt: {
+    type: Date, // Дата и время, когда заявка была решена
+    default: null
+  },
+  resolutionTime: {
+    type: Number, // Время, затраченное на решение заявки в миллисекундах
+    default: null
   }
 });
 

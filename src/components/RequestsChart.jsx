@@ -1,60 +1,89 @@
-// src/components/RequestsChart.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Select, Card } from 'antd';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const { Option } = Select;
 
-const dataWeek = [
-  { name: 'Пн', requests: 12 },
-  { name: 'Вт', requests: 18 },
-  { name: 'Ср', requests: 8 },
-  { name: 'Чт', requests: 15 },
-  { name: 'Пт', requests: 10 },
-  { name: 'Сб', requests: 5 },
-  { name: 'Вс', requests: 7 },
-];
-
-const dataMonth = [
-  { name: 'Неделя 1', requests: 45 },
-  { name: 'Неделя 2', requests: 32 },
-  { name: 'Неделя 3', requests: 25 },
-  { name: 'Неделя 4', requests: 50 },
-];
-
-const dataYear = [
-  { name: 'Янв', requests: 120 },
-  { name: 'Фев', requests: 110 },
-  { name: 'Мар', requests: 130 },
-  { name: 'Апр', requests: 150 },
-  { name: 'Май', requests: 170 },
-  { name: 'Июн', requests: 160 },
-  { name: 'Июл', requests: 180 },
-  { name: 'Авг', requests: 200 },
-  { name: 'Сен', requests: 220 },
-  { name: 'Окт', requests: 190 },
-  { name: 'Ноя', requests: 230 },
-  { name: 'Дек', requests: 240 },
-];
-
 const RequestsChart = () => {
   const [timePeriod, setTimePeriod] = useState('week');
+  const [requestData, setRequestData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, [timePeriod]);
+
+  const fetchData = async () => {
+    try {
+      // Имитация данных
+      let fakeData = [];
+      if (timePeriod === 'week') {
+        fakeData = [
+          { name: 'Пн', requests: 200 },
+          { name: 'Вт', requests: 300 },
+          { name: 'Ср', requests: 400 },
+          { name: 'Чт', requests: 350 },
+          { name: 'Пт', requests: 500 },
+          { name: 'Сб', requests: 600 },
+          { name: 'Вс', requests: 700 },
+        ];
+      } else if (timePeriod === 'month') {
+        fakeData = [
+          { name: '1', requests: 1000 },
+          { name: '2', requests: 1100 },
+          { name: '3', requests: 1200 },
+          { name: '4', requests: 1250 },
+          { name: '5', requests: 1300 },
+          { name: '6', requests: 1400 },
+          { name: '7', requests: 1500 },
+          { name: '8', requests: 1600 },
+          { name: '9', requests: 1700 },
+          { name: '10', requests: 1800 },
+          { name: '11', requests: 1850 },
+          { name: '12', requests: 1900 },
+          { name: '13', requests: 2000 },
+          { name: '14', requests: 2100 },
+          { name: '15', requests: 2200 },
+          { name: '16', requests: 2300 },
+          { name: '17', requests: 2400 },
+          { name: '18', requests: 2500 },
+          { name: '19', requests: 2600 },
+          { name: '20', requests: 2700 },
+          { name: '21', requests: 2800 },
+          { name: '22', requests: 2900 },
+          { name: '23', requests: 3000 },
+          { name: '24', requests: 3100 },
+          { name: '25', requests: 3200 },
+          { name: '26', requests: 3300 },
+          { name: '27', requests: 3400 },
+          { name: '28', requests: 3500 },
+          { name: '29', requests: 3600 },
+          { name: '30', requests: 3700 },
+          { name: '31', requests: 3800 },
+        ];
+      } else if (timePeriod === 'year') {
+        fakeData = [
+          { name: 'Янв', requests: 10000 },
+          { name: 'Фев', requests: 11000 },
+          { name: 'Мар', requests: 12000 },
+          { name: 'Апр', requests: 13000 },
+          { name: 'Май', requests: 14000 },
+          { name: 'Июн', requests: 15000 },
+          { name: 'Июл', requests: 16000 },
+          { name: 'Авг', requests: 17000 },
+          { name: 'Сен', requests: 18000 },
+          { name: 'Окт', requests: 19000 },
+          { name: 'Ноя', requests: 20000 },
+          { name: 'Дек', requests: 21000 },
+        ];
+      }
+      setRequestData(fakeData);
+    } catch (error) {
+      console.error('Ошибка получения данных:', error);
+    }
+  };
 
   const handleChange = (value) => {
     setTimePeriod(value);
-  };
-
-  const getData = () => {
-    switch (timePeriod) {
-      case 'week':
-        return dataWeek;
-      case 'month':
-        return dataMonth;
-      case 'year':
-        return dataYear;
-      default:
-        return dataWeek;
-    }
   };
 
   return (
@@ -65,7 +94,7 @@ const RequestsChart = () => {
         <Option value="year">Год</Option>
       </Select>
       <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={getData()}>
+        <LineChart data={requestData}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis />

@@ -12,8 +12,10 @@ const createUser = async () => {
   try {
     // Задаем данные нового пользователя
     const userData = {
-      username: 'admin',
-      password: 'admin' 
+      username: 'doc',
+      password: 'doc',
+      name: 'doc',
+      isemploye: true,
     };
 
     // Создаем новый экземпляр пользователя с заданными данными
