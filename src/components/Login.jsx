@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Checkbox, Typography, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './Login.css';
-import { useHistory } from 'react-router-dom'; // Import useHistory from react-router-dom
+import { useHistory } from 'react-router-dom';
 
 const { Title, Text } = Typography;
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [loading, setLoading] = useState(false);
-  const history = useHistory(); // Access the history object using useHistory
+  const history = useHistory();
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -25,15 +25,16 @@ const Login = () => {
       });
 
       if (response.ok) {
-        history.push('/home');
-        window.location.reload(); // Redirect to '/home' after successful authentication
+        const { token } = await response.json();
+        onLogin(token, history);
+        window.location.reload() // Передаем history в onLogin
       } else {
         throw new Error('Authentication error');
       }
     } catch (error) {
       console.error('Authentication error:', error);
       setLoading(false);
-      message.error('Ошибка авторизации. Проверьте логин и пароль ');
+      message.error('Ошибка авторизации. Проверьте логин и пароль.');
     }
   };
 

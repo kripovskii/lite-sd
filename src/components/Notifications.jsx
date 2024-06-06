@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Badge, Dropdown, List, Avatar } from 'antd';
 import { BellOutlined } from '@ant-design/icons';
+import { Color } from 'bizcharts/lib/plots/core/dependents';
 
 const notificationsData = [
   {

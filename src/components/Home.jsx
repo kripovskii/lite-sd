@@ -78,6 +78,7 @@ const App = () => {
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
             style={{
+              color: 'white',
               fontSize: '16px',
               width: 64,
               height: 64,
@@ -85,9 +86,11 @@ const App = () => {
           />
           <Notifications 
             type="text"
+            
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
             style={{
+              color: 'white',
               fontSize: '16px',
               width: 64,
               height: 64,

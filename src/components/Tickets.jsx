@@ -31,9 +31,15 @@ const Tickets = () => {
   const handleMenuClick = (key) => {
     if (key === '3') {
       history.push('/new');
+      window.location.reload();
     }
     if (key === '2') {
       history.push('/tickets');
+      window.location.reload()
+    }
+    if (key === '1') {
+      history.push('/home');
+      window.location.reload()
     }
   };
 
