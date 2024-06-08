@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const argon2 = require('argon2');
 
-const secretKey = process.env.JWT_SECRET_KEY || 'your_secret_key';
+const secretKey = process.env.JWT_SECRET_KEY || 'karabumba';
 
 async function authenticateUser(username, password) {
   try {
@@ -17,11 +17,10 @@ async function authenticateUser(username, password) {
     if (!validPassword) {
       return { success: false, message: 'Invalid password' };
     }
-
-    // Включаем name в полезную нагрузку JWT
     const payload = {
       username: user.username,
-      name: user.name
+      name: user.name,
+      iseploye: user.name
     };
 
     const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
