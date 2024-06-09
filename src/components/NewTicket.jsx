@@ -26,15 +26,32 @@ const App = () => {
       values.status = 'Новая';
 
       const formData = new FormData();
-      Object.entries(values).forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-          value.forEach((file) => {
-            formData.append(key, file);
-          });
-        } else {
-          formData.append(key, value);
-        }
-      });
+      // Object.entries(values).forEach(([key, value]) => {
+      //   if (Array.isArray(value)) {
+      //     value.forEach((file) => {
+      //       formData.append(key, file);
+      //     });
+      //   } else {
+      //     formData.append(key, value);
+      //   }
+      // });
+
+      const requestData = {
+        subject: values.subject,
+        description: values.description,
+        customer: values.customer,
+        serviceObject: values.serviceObject
+      }
+
+      for (let key in requestData) {
+        formData.append(key, requestData[key]);
+      }
+
+      if (values.files && values.files.fileList) {
+        values.files.fileList.forEach((file) => {
+          formData.append('uploaded_files', file.originFileObj);
+        });
+      }
 
       const response = await fetch('http://localhost:3001/api/tickets', {
         method: 'POST',
@@ -55,6 +72,21 @@ const App = () => {
       console.error('Error creating ticket:', error);
       message.error('Ошибка при отправке. Повторите попытку позже', error);
     }
+  };
+
+  const uploadProps = {
+    multiple: true,
+    beforeUpload: (file) => {
+      const isPNG = file.type === 'image/png';
+      const isJPG = file.type === 'image/jpeg';
+      if (!isPNG && !isJPG) {
+        message.error(`${file.name} файл не является картинкой`);
+      }
+      return false;
+    },
+    onDrop(e) {
+      console.log('Dropped files', e.dataTransfer.files);
+    },
   };
 
   const handleCreateTicket = () => {
@@ -116,7 +148,7 @@ const App = () => {
               </Select>
             </Form.Item>
             <Form.Item label="Загрузить файлы" name="files">
-              <Upload multiple>
+              <Upload {...uploadProps}>
                 <Button icon={<UploadOutlined />}>Выбрать файлы</Button>
               </Upload>
             </Form.Item>

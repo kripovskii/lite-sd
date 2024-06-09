@@ -87,9 +87,9 @@ const TicketDetails = () => {
           bordered
           dataSource={ticket.files}
           renderItem={(file, index) => (
-            <List.Item>
+            <List.Item style={{justifyContent: 'start'}}>
               <FileTextOutlined style={{ marginRight: '8px' }} />
-              {file}
+              <a href={`http://localhost:3001/api/tickets/file/${number}/${index}`} target={'_blank'}>{file.originalname}</a>
             </List.Item>
           )}
         />

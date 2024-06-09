@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const { filesSchema } = require('../models/File')
+
 
 const ticketSchema = new mongoose.Schema({
   number: {
@@ -20,7 +22,7 @@ const ticketSchema = new mongoose.Schema({
     required: true
   },
   files: {
-    type: [String]
+    type: [filesSchema]
   },
   customer: {
     type: String,

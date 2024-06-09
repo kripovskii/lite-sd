@@ -1,5 +1,6 @@
 const express = require('express');
 const Ticket = require('../models/Ticket');
+const {createReadStream} = require("fs");
 const router = express.Router();
 
 /**
@@ -43,7 +44,8 @@ const router = express.Router();
  *         description: Не удалось создать заявку
  */
 router.post('/', async (req, res) => {
-  const { subject, description, customer, serviceObject, files, employee } = req.body;
+  const { subject, description, customer, serviceObject, employee } = req.body;
+  const { files } = req;
 
   try {
     const ticketCount = await Ticket.countDocuments();
@@ -184,6 +186,22 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/file/:number/:id', async (req, res) => {
+  const { number, id } = req.params;
+  try {
+    const ticket = await Ticket.findOne({ number: number });
+    if (!ticket) {
+      return res.status(404).json({ message: 'Заявка не найдена' });
+    }
+    const file = ticket.files[id]
+    res.setHeader("content-type", file.mimetype);
+    createReadStream(file.path).pipe(res);
+  } catch (error) {
+    console.error('Ошибка при получении заявки:', error);
+    res.status(500).json({ message: 'Не удалось получить заявку' });
+  }
+})
+
 /**
  * @swagger
  * /api/tickets/{number}:
@@ -227,6 +245,7 @@ router.get('/', async (req, res) => {
  *       500:
  *         description: Не удалось получить заявку
  */
+
 router.get('/:number', async (req, res) => {
   const { number } = req.params;
   try {
