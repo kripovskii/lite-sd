@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FormOutlined, HomeOutlined, InboxOutlined, MenuFoldOutlined, MenuUnfoldOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Layout, Menu, Input, Form, Upload, Select, Row, Col, message } from 'antd';
+import { Button, Layout, Menu, Input, Form, Upload, Select, message } from 'antd';
 
 const { Header, Sider, Content } = Layout;
 const { Option } = Select;
@@ -9,55 +9,56 @@ const { Option } = Select;
 const App = () => {
   const [collapsed, setCollapsed] = useState(false);
   const history = useHistory();
+
   const handleMenuClick = (key) => {
     if (key === '3') {
       history.push('/new');
       window.location.reload();
     }
-    if (key === '2'){
-        history.push('/tickets');
-        window.location.reload();
+    if (key === '2') {
+      history.push('/tickets');
+      window.location.reload();
     }
   };
 
-
   const onFinish = async (values) => {
-    console.log('Received values:', values);
-
     try {
-        // Добавляем новые поля к значениям перед отправкой
-        const newValues = {
-          ...values,
-          status: 'Новая',  // Устанавливаем статус по умолчанию
-        };
-    
-        const response = await fetch('http://localhost:3001/api/tickets', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newValues),
-        });
+      values.status = 'Новая';
+
+      const formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          value.forEach((file) => {
+            formData.append(key, file);
+          });
+        } else {
+          formData.append(key, value);
+        }
+      });
+
+      const response = await fetch('http://localhost:3001/api/tickets', {
+        method: 'POST',
+        body: formData,
+      });
+      
+
       if (response.ok) {
         const data = await response.json();
         console.log('Ticket created:', data);
-        message.success("Заявка отправлена")
-        // Добавьте здесь логику для перехода на другую страницу или вывода сообщения об успешном создании заявки
-        history.push('/success'); // Например, переход на страницу успешного создания заявки
+        message.success('Заявка отправлена');
+        
       } else {
         console.error('Failed to create ticket');
-        message.error("Ошибка при отправке. Повторите попытку позже")
-        // Добавьте здесь логику для вывода сообщения об ошибке
+        message.error('Ошибка при отправке. Повторите попытку позже');
       }
     } catch (error) {
       console.error('Error creating ticket:', error);
-      message.error("Ошибка при отправке. Повторите попытку позже", error)
-      // Добавьте здесь логику для вывода сообщения об ошибке
+      message.error('Ошибка при отправке. Повторите попытку позже', error);
     }
   };
 
   const handleCreateTicket = () => {
-    history.push('/new');
+   
   };
 
   return (
@@ -97,7 +98,7 @@ const App = () => {
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 14 }}
           >
-            {/* Форма заявки */}
+            {/* Form fields */}
             <Form.Item label="Тема" name="subject" rules={[{ required: true, message: 'Введите тему заявки' }]}>
               <Input />
             </Form.Item>
@@ -115,8 +116,8 @@ const App = () => {
               </Select>
             </Form.Item>
             <Form.Item label="Загрузить файлы" name="files">
-              <Upload>
-                <Button icon={<UploadOutlined />}>Загрузить файлы</Button>
+              <Upload multiple>
+                <Button icon={<UploadOutlined />}>Выбрать файлы</Button>
               </Upload>
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
